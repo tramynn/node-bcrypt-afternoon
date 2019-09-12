@@ -32,6 +32,7 @@ app.use(
 
 // endpoints
 app.post("/auth/register", authController.register);
+app.post("/auth/login", authController.login);
 
 // server connection
 app.listen(SERVER_PORT, () => {

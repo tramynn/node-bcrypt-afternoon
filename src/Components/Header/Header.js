@@ -56,7 +56,18 @@ export default class Header extends Component {
   }
 
   logout() {
-    // axios GET to /auth/logout here
+    // axios GET to /auth/logout here'
+    const { username, password } = this.state;
+    axios
+      .post("/auth/login", { username, password })
+      .then(user => {
+        this.props.updateUser(user.data);
+        this.setState({
+          username: "",
+          password: ""
+        });
+      })
+      .catch(err => alert(err.response.request.response));
   }
 
   render() {
