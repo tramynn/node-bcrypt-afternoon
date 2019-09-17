@@ -33,6 +33,7 @@ app.use(
 // endpoints
 app.post("/auth/register", authController.register);
 app.post("/auth/login", authController.login);
+app.get("/auth/logout", authController.logout);
 
 // server connection
 app.listen(SERVER_PORT, () => {
