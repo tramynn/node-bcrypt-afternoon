@@ -3,16 +3,15 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const massive = require("massive");
+const app = express();
+
+// Controllers
 const authController = require("./controllers/authController");
 const treasureController = require("./controllers/treasureController");
 const auth = require("./middleware/authMiddleware");
-const app = express();
 
 // destructure server_port, session_secret, and connection_string from dotenv
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env;
-
-// middleware
-app.use(express.json());
 
 // database connection
 massive(CONNECTION_STRING).then(db => {
@@ -21,14 +20,13 @@ massive(CONNECTION_STRING).then(db => {
 });
 
 // middleware
+app.use(express.json());
+
 app.use(
   session({
-    resave: false,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+    resave: true,
+    saveUninitialized: false,
+    secret: SESSION_SECRET
   })
 );
 

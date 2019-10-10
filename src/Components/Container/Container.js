@@ -34,16 +34,18 @@ export default class Container extends Component {
   }
 
   getAllTreasure() {
-    // axios GET to /api/treasure/all here-
-    axios
-      .get("/api/treasure/all")
-      .then(treasure => {
+    axios.get("/api/treasure/all")
+      .then(response => {
         this.setState({
-          ...this.state.treasures,
-          all: treasure.data
+          treasures: {
+            ...this.state.treasures,
+            all: response.data
+          }
         });
       })
-      .catch(err => alert(err.response.request.response));
+      .catch(err => {
+        alert(err.response.request.response)
+      })
   }
 
   getMyTreasure() {
@@ -81,16 +83,16 @@ export default class Container extends Component {
             <Treasure treasure={dragon} />
           </div>
         ) : (
-          <div className="treasureBox">
-            <button className="title" onClick={() => this.getDragonTreasure()}>
-              See Dragon's <br /> Treasure
+            <div className="treasureBox">
+              <button className="title" onClick={() => this.getDragonTreasure()}>
+                See Dragon's <br /> Treasure
             </button>
-            <p>
-              This treasure trove does not require a user to be logged in for
-              access
+              <p>
+                This treasure trove does not require a user to be logged in for
+                access
             </p>
-          </div>
-        )}
+            </div>
+          )}
         {user && username ? (
           <div className="treasureBox loggedIn">
             <h1>
@@ -100,39 +102,39 @@ export default class Container extends Component {
             <Treasure treasure={user} addMyTreasure={this.addMyTreasure} />
           </div>
         ) : (
-          <div className="treasureBox">
-            <button
-              className="title"
-              onClick={() => this.getMyTreasure()}
-              name="user"
-            >
-              See My <br /> Treasure
+            <div className="treasureBox">
+              <button
+                className="title"
+                onClick={() => this.getMyTreasure()}
+                name="user"
+              >
+                See My <br /> Treasure
             </button>
-            <p>
-              This treasure trove requires a user to be logged in for access
+              <p>
+                This treasure trove requires a user to be logged in for access
             </p>
-          </div>
-        )}
+            </div>
+          )}
         {all && username ? (
           <div className="treasureBox loggedIn">
             <h1>All treasure</h1>
             <Treasure treasure={all} />
           </div>
         ) : (
-          <div className="treasureBox">
-            <button
-              className="title"
-              onClick={() => this.getAllTreasure()}
-              name="all"
-            >
-              See All <br /> Treasure
+            <div className="treasureBox">
+              <button
+                className="title"
+                onClick={() => this.getAllTreasure()}
+                name="all"
+              >
+                See All <br /> Treasure
             </button>
-            <p>
-              This treasure trove requires a user to be a logged in as an admin
-              user for access
+              <p>
+                This treasure trove requires a user to be a logged in as an admin
+                user for access
             </p>
-          </div>
-        )}
+            </div>
+          )}
       </div>
     );
   }

@@ -6,7 +6,16 @@ async function dragonTreasure(req, res) {
 
 async function getUserTreasure(req, res) {
   const db = req.app.get("db");
-  const userTreasure = await db.get_user_treasure([req_session.user.id]);
+  const { id } = req.session.user;
+  const userTreasure = await db.get_user_treasure(id);
+  return res.status(200).json(userTreasure);
+}
+
+async function addUserTreasure(req, res) {
+  const db = req.app.get("db");
+  const { treasureURL } = req.body;
+  const { id } = req.session.user;
+  const userTreasure = await db.add_user_treasure([treasureURL, id]);
   return res.status(200).json(userTreasure);
 }
 
@@ -16,17 +25,9 @@ async function getAllTreasure(req, res) {
   return res.status(200).json(allTreasure);
 }
 
-async function addUserTreasure(req, res) {
-  const db = req.app.get("db");
-  const { treasureURL } = req.body;
-  const { id } = req.params;
-  const userTreasure = await db.add_user_treasure([treasureURL, id]);
-  return res.status(200).json(userTreasure);
-}
-
 module.exports = {
   dragonTreasure,
   getUserTreasure,
-  getAllTreasure,
-  addUserTreasure
+  addUserTreasure,
+  getAllTreasure
 };
